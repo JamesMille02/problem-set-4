@@ -1,15 +1,39 @@
-'''
-PART 5: SCATTER PLOTS
-- Write functions for the tasks below
-- Update main() in main.py to generate the plots and print statments when called
-- All plots should be output as PNG files to `data/part5_plots`
-'''
+import seaborn as sns
+import matplotlib.pyplot as plt
 
-# 1. Using lmplot, create a scatter plot where the x-axis is the prediction for felony and the y-axis the is prediction for a nonfelony, and hue this by whether the current charge is a felony. 
-# 
-# In a print statement, answer the following question: What can you say about the group of dots on the right side of the plot?
+def plot_scatter_felony_vs_nonfelony(pred_universe):
+    """saves scatter plot for the likelihood a felon and misdemeanor would commit each crime again
+    
+    Args: 
+        pre_universe(dataframe): dataframe of prediction results
+    """
+    sns.lmplot(data=pred_universe, 
+               x='prediction_felony', 
+               y='prediction_nonfelony', 
+               hue='has_felony_charge', 
+               aspect=1.5)
+    plt.title('Scatter Plot of Felony vs Non-Felony Rearrest Predictions')
+    plt.savefig('data/part5_plots/scatter_felony_vs_nonfelony.png', bbox_inches='tight')
+    plt.close()
+    print('the group on the right have commited a felony and are more likely to '+
+          'commit another felony but less likey to commit a misdomeanor comparitavely.')
 
 
-# 2. Create a scatterplot where the x-axis is prediction for felony rearrest and the y-axis is whether someone was actually rearrested.
-# 
-# In a print statement, answer the following question: Would you say based off of this plot if the model is calibrated or not?
+
+def plot_scatter_prediction_vs_actual(pred_universe):
+    """saves cat plot for to compare the predicted values and actual values for rearrest 
+    
+    Args: 
+        pre_universe(dataframe): dataframe of prediction results
+    """
+    sns.scatterplot(data=pred_universe, 
+                    x='prediction_felony', 
+                    y='y_felony')
+    plt.title('Scatter Plot of Felony Rearrest Prediction vs Actual Rearrest')
+    plt.savefig('data/part5_plots/scatter_prediction_vs_actual.png', bbox_inches='tight')
+    plt.close()
+    print('the plot is not calibrated because it is not understandable. The possible '+\
+          'values are 1 and 0 so all the dots are on the top and bottom. This makes the graph not understandable' +
+          'to calibrate the graph you could do the number of rearrests and it may be better '+ 
+          'but with the current setup it is unreadable')
+

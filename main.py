@@ -27,24 +27,32 @@ def main():
 
     ##  PART 3: BAR PLOTS AND HISTOGRAMS  ##
     # 1
-
+    part3.plot_fta_bar(pred_universe)
     # 2
+    part3.plot_fta_bar_hue(pred_universe)
 
     # 3
+    part3.plot_age_histogram(pred_universe)
 
     # 4
+    part3.plot_age_histogram_custom_bins(pred_universe)
 
     ##  PART 4: CATEGORICAL PLOTS  ##
+    merged_felony, updated_pred = part1.create_felony_update(pred_universe, arrest_events)
+
     # 1
-    
+    part4.plot_catplot_felony(updated_pred)
     # 2
+    part4.plot_catplot_nonfelony(updated_pred)
 
     # 3
+    part4.plot_catplot_felony_with_hue(updated_pred)
 
     ##  PART 5: SCATTERPLOTS  ##
     # 1
-    
+    part5.plot_scatter_felony_vs_nonfelony(updated_pred)
     # 2
+    part5.plot_scatter_prediction_vs_actual(updated_pred)
 
 
 if __name__ == "__main__":

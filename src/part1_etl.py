@@ -25,3 +25,22 @@ def extract_transform():
     charge_counts_by_offense = arrest_events.groupby(['charge_degree', 'offense_category']).size().reset_index(name='count')
     
     return pred_universe, arrest_events, charge_counts, charge_counts_by_offense
+
+def create_felony_update(pred_universe, arrest_events):
+    """creates the dataframes for the level of arrest and joins with predictive dataset.
+
+    Args:
+        pred_universe(dataframe): dataset of prediction result
+        arrest_events(dataframe): dataset of the arrest information for each event used for the prediction
+
+    Returns:
+        felony_charge(dataframe): the dataset for the felony charges
+        updated_pred(dataframe): dataset for updated prediction with the joined data so it has the arrest level information.
+    """
+
+    #gets the felony level arrests
+    felony_charge = arrest_events.groupby('arrest_id')['charge_degree'].apply(lambda x: 1 if (x == 'felony').sum() > 0 else 0).reset_index(name='has_felony_charge')
+    #creates merged df 
+    updated_pred = pred_universe.merge(felony_charge, on='arrest_id', how='inner')
+    
+    return felony_charge, updated_pred
